@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics.Eventing.Reader;
 using System.Linq;
+using System.Reflection.Emit;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -8,13 +10,32 @@ namespace Matrix
 {
     public class Size
     {
-        private int height;
-        private int width;
+        public int Height { get; set; }
+        public int Width { get; set; }
+        public bool IsSquare { get; }
 
         public Size(int width, int height)
         {
-            this.width = width;
-            this.height = height;
+            Width = width;
+            Height = height;
+            IsSquare = (Width == Height) ? true : false;
+
+        }
+
+        public static bool operator ==(Size a, Size b)
+        {
+            return ((a.Height == b.Height) && (a.Width == b.Width)) ? true : false;
+        }
+
+        public static bool operator !=(Size a, Size b)
+        {
+            return ((a.Height == b.Height) && (a.Width == b.Width)) ? false : true;
+
+        }
+
+        public override bool Equals(object obj)
+        {
+            return (this==(Size)obj);
         }
     }
 }
